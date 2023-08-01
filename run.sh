@@ -6,4 +6,4 @@
 
 g++ ./src/main.cpp -o minesweeper.exe
 
-./minesweeper.exe
+./minesweeper.exe 2
