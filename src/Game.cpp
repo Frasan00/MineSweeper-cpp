@@ -36,6 +36,7 @@ class Game {
         }
 
         void start(){
+            system("clear");
             string init;
             cout <<  "--- Welcome To Minesweeper ---\n\n";
             cout << "Press Q any time to quit the game" << endl;
@@ -71,7 +72,7 @@ class Game {
             displayString(y, x);
 
             int ch;
-            while ((ch = getch()) != 'q' && hasWin == false && hasLost == false) {
+            while (hasWin == false && hasLost == false && (ch = getch()) != 'q') {
                 switch (ch) {
                     case 'w':
                         if (y > 0) y--;

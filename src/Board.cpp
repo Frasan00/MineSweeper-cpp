@@ -74,11 +74,13 @@ class Board {
 
             if(board[x][y].getValue() > 0) {
                board[x][y].click();
+               this->discoveredBoxes++;
                return;
             }
             
             // recursion
             board[x][y].click();
+            this->discoveredBoxes++;
             recursiveClick(x - 1, y);
             recursiveClick(x + 1, y);
             recursiveClick(x, y - 1);
@@ -101,6 +103,7 @@ class Board {
             }
             else {
                 // recursive part
+                this->discoveredBoxes++;
                 recursiveClick(x - 1, y);
                 recursiveClick(x + 1, y);
                 recursiveClick(x, y - 1);
