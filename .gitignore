@@ -1,2 +1,5 @@
-server.exe
+minesweeper.exe
+Board.o
+Game.o
+Box.o
 .vscode

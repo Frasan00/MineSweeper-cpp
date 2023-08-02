@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <algorithm>
 #include <thread>
+#include <ncurses.h>
 #include "Board.cpp"
 
 using namespace std;
@@ -35,66 +36,87 @@ class Game {
         }
 
         void start(){
+            string init;
+            cout <<  "--- Welcome To Minesweeper ---\n\n";
+            cout << "Press Q any time to quit the game" << endl;
+            cout << "Press Enter Key to discover a cell" << endl;
+            cout << "Press F to flag a cell" << endl;
+            cout << "Press U to unFlag a cell" << endl;
+            cout << "press any key to start! ";
+            int key = getchar();
+            cout << static_cast<char>(key);
+
             bool hasWin = false;
             bool hasLost = false;
-            string tempX;
-            string tempY;
-            string comand;
+            initscr();
+            cbreak();
+            noecho();
+            keypad(stdscr, TRUE);
 
-            system("clear");
-            cout << "--- Welcome To Minesweeper ---\n\n";
+            int x = 0;
+            int y = 0;
+            int height = this->board->getLen();
+            int width = this->board->getLen();
 
-            while(hasWin == false && hasLost == false){
-                this->board->printBoard();
-                cout << "\n";
-                cin >> tempX;
-                cin >> tempY;
-                cin >> comand;
+            WINDOW* win = newwin(height, width, 0, 0);
+            refresh();
 
-                if(comand == "q" || comand == "e" || comand == "quit" || comand == "exit") {
-                    cout << "Thanks for playing!" << endl;
-                    break;       
-                }
+            auto displayString = [&](int y, int x) {
+                wclear(win);
+                mvwprintw(win, 0, 0, this->board->getBoard().c_str());
+                wmove(win, y, x);
+                wrefresh(win);
+            };
 
-                if(comand == "flag") { 
-                    this->board->flag(stoi(tempX), stoi(tempY)); 
-                    system("clear");
-                    continue; 
-                }
-                if(comand == "unFlag") { 
-                    this->board->unFlag(stoi(tempX), stoi(tempY)); 
-                    system("clear");
-                    continue; 
-                }
+            displayString(y, x);
 
-                int result = this->board->click(stoi(tempX), stoi(tempY));
-                
-                switch (result){
-                    case 9:
-                        hasLost = true;
-                        system("clear");
-                        this->board->printBoard();
-                        cout << "\n" << "Sorry you took a bomb!" << endl;
-                        cout << "Thanks for playing!" << endl;
+            int ch;
+            while ((ch = getch()) != 'q' && hasWin == false && hasLost == false) {
+                switch (ch) {
+                    case 'w':
+                        if (y > 0) y--;
                         break;
 
-                    case -1:
-                        system("clear");
-                        cout << "Please insert valid indexs" << endl;
+                    case 's':
+                        if (y < height - 1) y++;
                         break;
 
-                    case 10:
-                        hasWin = true;
-                        system("clear");
-                        this->board->printBoard();
-                        cout << "\n" << "You won!" << endl;
-                        cout << "Thanks for playing!" << endl;         
-                    
-                    default:
-                        system("clear");
+                    case 'a':
+                        if (x > 0) x--;
+                        break;
+
+                    case 'd':
+                        if (x < width - 1) x++;
+                        break;
+
+                    case 'f':
+                        this->board->flag(y, x); 
+                        break;
+
+                    case 'u':
+                        this->board->unFlag(y, x); 
+                        break;
+
+                    case ' ':
+                        int result = this->board->click(y, x);
+
+                        if(result == 9) hasLost = true;
+                        else if(result == 10) hasWin = true;
                         break;
                 }
+                displayString(y, x);
             }
+            delwin(win);
+            endwin();
+
+            if(hasLost == true) {
+                cout << "You took a bomb!" << endl;
+            }
+
+            else if(hasWin == true) {
+                cout << "You Won!" << endl;
+            }
+            cout << "Thanks for playing!" << endl;
         }
     
     private:

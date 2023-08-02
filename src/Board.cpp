@@ -41,16 +41,20 @@ class Board {
             }
         }
 
-        void printBoard(){
+        int getLen(){ return this->boardSize; }
+
+        string getBoard(){
+            string out;
             for (int i = 0; i<this->boardSize; i++){
                 for (int j = 0; j<this->boardSize; j++){
-                    if(board[i][j].getStatus() == false && board[i][j].getFlag() == false) cout << "? ";
-                    else if (board[i][j].getValue() < 9 && board[i][j].getStatus() == true) cout << board[i][j].getValue() << " ";
-                    else if (board[i][j].getFlag() == true) cout << "x" << " ";
-                    else cout << "* ";
+                    if(board[i][j].getStatus() == false && board[i][j].getFlag() == false) out+="?";
+                    else if (board[i][j].getValue() < 9 && board[i][j].getStatus() == true) out+=to_string(board[i][j].getValue());
+                    else if (board[i][j].getFlag() == true) out+= "x";
+                    else out+="*";
                 }
-                cout << "\n" << "";
+                out+="\r";
             }
+            return out;
         }
 
         void flag(int x, int y){
