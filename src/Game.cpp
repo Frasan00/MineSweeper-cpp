@@ -40,7 +40,7 @@ class Game {
             string init;
             cout <<  "--- Welcome To Minesweeper ---\n\n";
             cout << "Press Q any time to quit the game" << endl;
-            cout << "Press Enter Key to discover a cell" << endl;
+            cout << "Press Space Key to discover a cell" << endl;
             cout << "Press F to flag a cell" << endl;
             cout << "Press U to unFlag a cell" << endl;
             cout << "press any key to start! ";
