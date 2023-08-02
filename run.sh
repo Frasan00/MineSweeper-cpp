@@ -13,7 +13,7 @@ g++ -c ./src/Game.cpp -o Game.o
 g++ -c ./src/Box.cpp -o Box.o
 g++ ./src/main.cpp Board.o Game.o -o minesweeper.exe -lncurses
 
-./minesweeper.exe 2
+./minesweeper.exe $1
 
 rm ./minesweeper.exe
 rm ./Board.o
