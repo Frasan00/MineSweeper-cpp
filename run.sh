@@ -7,3 +7,5 @@
 g++ ./src/main.cpp -o minesweeper.exe
 
 ./minesweeper.exe 2
+
+rm ./minesweeper.exe

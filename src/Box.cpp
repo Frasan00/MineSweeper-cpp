@@ -13,10 +13,17 @@ class Box {
     public:
         Box(int value = 0){
             this->clicked = false;
+            this->flagged = false;
             this->value = value;
         }
 
+        bool getFlag(){ return this->flagged; }
+
         bool getStatus(){ return this->clicked; };
+        void setValue(int value){ this->value = value; }
+
+        void unFlag(){ this->flagged = false; }
+        void flag(){ this->flagged = true; }
 
         int getValue(){ return this->value; }
         int click(){ 
@@ -26,7 +33,8 @@ class Box {
     
     private:
         bool clicked;
-        int value; // -1 = bomb, 0 = null, { 1, 2, 3,..., 8 } near bombs
+        bool flagged;
+        int value; // 9 = bomb, 0 = null, { 1, 2, 3,..., 8 } near bombs
 
 };
 
